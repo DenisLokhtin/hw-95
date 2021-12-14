@@ -1,0 +1,5 @@
+.idea
+/front/node_modules
+/front/.env
+/back/node_modules
+/back/.env
