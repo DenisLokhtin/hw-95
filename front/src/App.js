@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import {Route, Routes} from "react-router-dom";
+import Main from "./components/Main/Main";
+import Register from "./containers/Register/Register";
+import Login from "./containers/Login/Login";
+import NewCocktail from "./containers/NewCocktail/NewCocktail";
+import Toolbar from "./components/UI/Toolbar/Toolbar";
+import React from "react";
+import './App.css'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+    return (
+        <div>
+            <Toolbar/>
+            <div className="container">
+                <div className="container-inner">
+                    <Routes>
+                        <Route path="/" exact element={<Main/>}/>
+                        <Route path="/cocktails" exact element={<Main/>}/>
+                        <Route path="/register" exact element={<Register/>}/>
+                        <Route path="/login" exact element={<Login/>}/>
+                        <Route path="/newCocktail" exact element={<NewCocktail/>}/>
+                    </Routes>
+                </div>
+            </div>
+        </div>
+    )
+};
 
 export default App;

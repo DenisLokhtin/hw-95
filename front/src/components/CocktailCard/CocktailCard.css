@@ -1,0 +1,24 @@
+.CocktailCard {
+    border: 2px solid black;
+    margin: 5px;
+    padding: 5px;
+    width: 300px;
+    border-radius: 2px;
+    word-wrap: break-word;
+}
+
+.CocktailCard div {
+    text-align: left;
+}
+
+.CocktailCard .edit {
+    text-align: right;
+}
+
+.CocktailCard .edit span {
+    color: blue;
+    text-decoration: underline;
+    font-size: 18px;
+    cursor: pointer;
+    user-select: none;
+}
