@@ -6,7 +6,7 @@ module.exports = {
   rootPath,
   uploadPath: path.join(rootPath, 'public/uploads'),
   db: {
-    url: 'mongodb://localhost/сocktails',
+    url: 'mongodb://localhost/cocktails',
   },
   facebook: {
     appId: process.env.FACEBOOK_APP_ID,

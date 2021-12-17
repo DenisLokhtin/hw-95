@@ -14,13 +14,13 @@ const Toolbar = () => {
         } else {
             return <AnonymousMenu/>
         }
-    }
+    };
 
     return (
         <div className="border">
             <div className="toolbar">
                 <div className="header">
-                    <Link to="/">Events</Link>
+                    <Link to="/">Cocktails</Link>
                 </div>
                 <div>
                     {menu()}

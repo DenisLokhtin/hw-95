@@ -1,7 +1,6 @@
 import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import thunk from "redux-thunk";
-import Reducer from "./reducers/Reducer";
-import usersReducer from "./reducers/usersReducer";
+import cocktailsSlice from "./slices/cocktailsSlice";
 import {loadFromLocalStorage, saveToLocalStorage} from "./localStorage";
 import axiosApi from "../axiosApi";
 import createSagaMiddleware from 'redux-saga';
@@ -10,7 +9,7 @@ import {rootSagas} from "./rootSagas";
 
 
 const rootReducer = combineReducers({
-    'reducer': Reducer,
+    'reducer': cocktailsSlice.reducer,
     'users': usersSlice.reducer,
 });
 

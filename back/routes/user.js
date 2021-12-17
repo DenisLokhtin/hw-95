@@ -39,13 +39,17 @@ router.post('/facebookLogin', async (req, res) => {
       return res.status(401).send({message: 'Wrong user ID'});
     }
 
-    let user = await User.findOne({facebookId: response.data.data.user_id});
+    let user = await User.findOne({facebookId: req.body.id});
 
     if (!user) {
       user = new User({
-        username: req.body.name,
+        // username: req.body.name,
+        // password: nanoid(),
+        // facebookId: response.data.data.user_id,
+        email: req.body.email || nanoid(),
         password: nanoid(),
-        facebookId: response.data.data.user_id,
+        facebookId: req.body.id,
+        displayName: req.body.name
       });
     }
 

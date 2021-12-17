@@ -1,36 +1,51 @@
 const express = require('express');
 const Cocktails = require('../models/cocktail');
+const multer = require('multer');
+const config = require('../config');
+const {nanoid} = require('nanoid');
 const auth = require('../middleware/auth');
 
 const router = express.Router();
 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, config.uploadPath);
+  },
+  filename: (req, file, cb) => {
+    cb(null, nanoid() + path.extname(file.originalname));
+  }
+});
+
 router.get('/', auth, async (req, res) => {
   try {
-    const Events = await Cocktails.find({author: req.user.username}).sort({date: 1});
-    res.send(Events);
+    const Cocktails = await Cocktails.find({});
+    res.send(Cocktails);
   } catch (e) {
     res.sendStatus(500);
   }
 });
 
-router.post('/', auth, async (req, res) => {
+const upload = multer({storage});
+
+router.post('/', auth, upload.single('image'), async (req, res) => {
   const body = {
-    title: req.body.title,
-    text: req.body.text,
-    date: req.body.date,
-    duration: req.body.duration,
     author: req.body.author,
+    title: req.body.title,
+    recipe: req.body.recipe,
+    published: req.body.published,
+    ingredients: req.body.ingredients,
+    rating: req.body.rating,
   };
 
-  if (req.share) {
-    body.share = req.body.share;
+  if (req.file) {
+    body.image = 'uploads/' + req.file.filename;
   }
 
-  const events = new Cocktails(body);
+  const cocktails = new Cocktails(body);
 
   try {
-    await events.save();
-    res.send(events);
+    await cocktails.save();
+    res.send(cocktails);
   } catch (e) {
     console.log(e);
     res.sendStatus(400);
