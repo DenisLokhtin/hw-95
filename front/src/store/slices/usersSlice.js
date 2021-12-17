@@ -31,8 +31,8 @@ const usersSlice = createSlice({
         },
         loginUser(state, action) {
         },
-        loginUserSuccess(state, {payload: userData}) {
-            state.user = userData.user
+        loginUserRequest(state, {payload: userData}) {
+            state.user = userData
         }
     }
 });

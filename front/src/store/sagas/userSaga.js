@@ -1,5 +1,5 @@
 import {takeEvery} from "redux-saga/effects";
-import {loginUser, registerUser, registerUserFailure, registerUserSuccess, loginUserSuccess} from "../actions/usersAction";
+import {loginUser, registerUser, registerUserFailure, registerUserSuccess, loginUserRequest} from "../actions/usersAction";
 import axiosApi from "../../axiosApi";
 import {historyPush} from "../actions/historyActions";
 import {put} from 'redux-saga/effects';
@@ -20,7 +20,7 @@ export function* registerUserSaga({payload: userData}) {
 export function* loginUserSaga({payload: userData}) {
     try {
         const response = yield axiosApi.post('users/sessions', userData);
-        yield put(loginUserSuccess(response.data));
+        yield put(loginUserRequest(response.data.user));
         yield put(historyPush('/'));
         toast.success('Login successful!');
     } catch (error) {

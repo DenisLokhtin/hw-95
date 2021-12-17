@@ -1,28 +1,28 @@
 import React from 'react';
 import './CocktailCard.css'
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 const CocktailCard = (props) => {
+    const dispatch = useDispatch();
     const user = useSelector(state => state.users.user);
     const cocktails = useSelector(state => state.reducer.cocktails);
 
+    const onPublish = () => {
 
-    const userCheck = () => {
-        if (user !== null) {
-            return user.username;
-        } else {
-            return ''
-        }
     };
 
     const publishedCheck = () => {
-        if (cocktails[props.index]) {
+        if (cocktails[props.index].published) {
             return (
                 <div className='edit'>
-                    <span>read</span> or <span>delete</span>
+                    <span>read</span>
                 </div>
             )
-        } else {
+        } else if (!cocktails[props.index].published && user.displayName === cocktails[props.index].author) {
+            return (
+                <h3>На рассмотрении у модератора</h3>
+            )
+        } else if (user.role === 'admin') {
             return (
                 <div className='edit'>
                     <span>publish</span> or <span>delete</span>

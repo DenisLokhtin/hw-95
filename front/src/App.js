@@ -1,5 +1,6 @@
 import {Route, Routes} from "react-router-dom";
 import Main from "./components/Main/Main";
+import MyCocktails from "./components/MyCocktails/MyCocktails";
 import Register from "./containers/Register/Register";
 import Login from "./containers/Login/Login";
 import NewCocktail from "./containers/NewCocktail/NewCocktail";
@@ -19,6 +20,7 @@ const App = () => {
                         <Route path="/register" exact element={<Register/>}/>
                         <Route path="/login" exact element={<Login/>}/>
                         <Route path="/newCocktail" exact element={<NewCocktail/>}/>
+                        <Route path="/MyCocktails" exact element={<MyCocktails/>}/>
                     </Routes>
                 </div>
             </div>
