@@ -7,7 +7,7 @@ const UserMenu = ({user}) => {
 
     return (
         <div>
-            Hello, <b>{user.username}</b>! <span onClick={() => dispatch(logoutUser())} className="link">Logout</span>
+            Hello, <b>{user}</b>! <span onClick={() => dispatch(logoutUser())} className="link">Logout</span>
         </div>
     );
 };

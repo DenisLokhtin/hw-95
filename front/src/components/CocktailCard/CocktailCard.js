@@ -33,24 +33,11 @@ const CocktailCard = (props) => {
 
     return (
         <div className="CocktailCard">
-            <img src="" alt="cocktail"/>
-            <h3>dads</h3>
+            <img src={'http://localhost:8001/' + props.image} alt=""/>
+            <h3>{props.title}</h3>
             {publishedCheck()}
         </div>
     );
-
-    // return (
-    //     <div className="CocktailCard">
-    //         <h3>{props.title}</h3>
-    //         <span>{props.text}</span>
-    //         <div>
-    //             <p>Date: {props.date}</p>
-    //             <p>Duration: {props.duration}</p>
-    //             <p>Author: {props.author}</p>
-    //         </div>
-    //         {publishedCheck()}
-    //     </div>
-    // );
 };
 
 export default CocktailCard;

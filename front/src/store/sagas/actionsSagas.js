@@ -6,7 +6,7 @@ import {toast} from "react-toastify";
 export function* actionsSagas() {
     try {
         const response = yield axiosApi.get('/cocktails', );
-        yield put(fetchCocktailsRequest(response.data));
+        yield put(fetchCocktailsSuccess(response.data));
     } catch (e) {
         if (e.response.status !== 401) {
             yield put(fetchCocktailsFailure);
@@ -17,7 +17,7 @@ export function* actionsSagas() {
 }
 
 const eventsSaga = [
-    takeEvery(fetchCocktailsSuccess, actionsSagas)
+    takeEvery(fetchCocktailsRequest, actionsSagas)
 ];
 
 export default eventsSaga;

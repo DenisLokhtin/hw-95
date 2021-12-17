@@ -9,9 +9,11 @@ const IngredientSchema = new Schema({
 
 const RatingSchema = new Schema({
   user: Schema.Types.ObjectId,
-  type: Number,
-  min: 1,
-  max: 5,
+  rating: {
+    type: Number,
+    min: 1,
+    max: 5,
+  }
 });
 
 const CocktailSchema = new Schema({

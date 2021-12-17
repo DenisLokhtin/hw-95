@@ -8,13 +8,12 @@ const Login = () => {
     const dispatch = useDispatch();
 
     const [user, setUser] = useState({
-        username: '',
-        password: ''
+        email: '',
+        password: '',
     });
 
     const inputChangeHandler = e => {
         const {name, value} = e.target;
-
         setUser(prevState => ({...prevState, [name]: value}));
     };
 
@@ -26,7 +25,7 @@ const Login = () => {
         <div>
             <form onSubmit={submitFormHandler} className="authorization">
                 <h2>Login</h2>
-                <input name="username" value={user.username} onChange={e => (inputChangeHandler(e))} type="text" placeholder="Username" autoComplete="on"/>
+                <input name="email" value={user.email} onChange={e => (inputChangeHandler(e))} type="text" placeholder="email" autoComplete="on"/>
                 <input name="password" value={user.password} onChange={e => (inputChangeHandler(e))} type="password" placeholder="Password" autoComplete="on"/>
                 <FacebookLogin classname="facebook"/>
                 <button onClick={() => dispatch(loginUser({...user}))} className="send">Send</button>

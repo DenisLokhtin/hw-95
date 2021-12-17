@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {createEvent} from "../../store/actions/actions";
+import {createCocktail} from "../../store/actions/actions";
 import './NewCocktail.css'
 
 const NewCocktail = (props) => {
@@ -9,7 +9,7 @@ const NewCocktail = (props) => {
 
     const userCheck = () => {
         if (user !== null) {
-            return user.username;
+            return user.displayName;
         } else {
             return ''
         }
@@ -18,6 +18,7 @@ const NewCocktail = (props) => {
     const [data, setData] = useState({
         title: '',
         image: null,
+        published: false,
         recipe: '',
         ingredients: [{
             title: '',
@@ -28,7 +29,15 @@ const NewCocktail = (props) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        dispatch(createEvent(data));
+        let newData = new FormData();
+        for (const [key, value] of Object.entries(data)) {
+           if (key !== 'ingredients') {
+               newData.append(key, value);
+           }
+        }
+        newData.append('ingredients', JSON.stringify(data.ingredients))
+        console.log(newData);
+        dispatch(createCocktail(newData));
     };
 
     const inputChangeHandler = e => {
@@ -36,7 +45,7 @@ const NewCocktail = (props) => {
         const value = e.target.value;
         setData(prevState => {
             return {...prevState, [name]: value};
-        }); 
+        });
     };
 
     const setIngredient = e => {
@@ -86,6 +95,8 @@ const NewCocktail = (props) => {
             };
         });
     };
+
+    console.log(data)
 
     return (
         <form onSubmit={onSubmit}>

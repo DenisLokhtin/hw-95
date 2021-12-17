@@ -9,11 +9,11 @@ export const {
 } = cocktailsSlice.actions;
 
 
-export const createEvent = data => {
+export const createCocktail = data => {
     return async () => {
         try {
-            await axiosApi.post('/events', data);
-            toast.success('Event Created');
+            await axiosApi.post('/cocktails', data, {'content-type': 'multipart/form-data'});
+            toast.success('cocktail Created');
         } catch (e) {
             console.log(e)
         }

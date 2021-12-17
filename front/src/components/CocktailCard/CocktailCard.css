@@ -22,3 +22,10 @@
     cursor: pointer;
     user-select: none;
 }
+
+.CocktailCard img {
+    width: 290px;
+    height: 290px;
+    border-radius: 3px;
+    border: 2px solid black;
+}

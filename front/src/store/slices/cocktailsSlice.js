@@ -13,7 +13,7 @@ const cocktailsSlice = createSlice({
             state.fetchLoadingCocktails = true;
         },
         fetchCocktailsSuccess(state, {payload: cocktails}) {
-            state.categories = cocktails;
+            state.cocktails = cocktails;
             state.fetchLoadingCocktails = false;
         },
         fetchCocktailsFailure(state, action) {

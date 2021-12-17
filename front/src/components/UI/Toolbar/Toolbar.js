@@ -9,8 +9,8 @@ const Toolbar = () => {
     const user = useSelector(state => state.users.user);
 
     const menu = () => {
-        if (user !== null) {
-            return  <UserMenu user={user}/>
+        if (user) {
+            return  <UserMenu user={user.displayName}/>
         } else {
             return <AnonymousMenu/>
         }

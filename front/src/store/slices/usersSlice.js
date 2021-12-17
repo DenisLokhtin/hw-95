@@ -26,6 +26,14 @@ const usersSlice = createSlice({
             state.registerLoading = false;
             state.registerError = action.payload;
         },
+        logoutUsers(state, action) {
+            state.user = null;
+        },
+        loginUser(state, action) {
+        },
+        loginUserSuccess(state, {payload: userData}) {
+            state.user = userData.user
+        }
     }
 });
 

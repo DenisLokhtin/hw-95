@@ -10,7 +10,8 @@ const router = express.Router();
 router.post('/', async (req, res) => {
   try {
     const user = new User({
-      username: req.body.username,
+      email: req.body.email,
+      displayName: req.body.displayName,
       password: req.body.password,
     });
 
@@ -43,9 +44,6 @@ router.post('/facebookLogin', async (req, res) => {
 
     if (!user) {
       user = new User({
-        // username: req.body.name,
-        // password: nanoid(),
-        // facebookId: response.data.data.user_id,
         email: req.body.email || nanoid(),
         password: nanoid(),
         facebookId: req.body.id,
@@ -64,7 +62,7 @@ router.post('/facebookLogin', async (req, res) => {
 });
 
 router.post('/sessions', async (req, res) => {
-  const user = await User.findOne({username: req.body.username});
+  const user = await User.findOne({email: req.body.email});
 
   if (!user) {
     return res.status(401).send({message: 'Credentials are wrong!'});
@@ -79,7 +77,7 @@ router.post('/sessions', async (req, res) => {
   user.generateToken();
   await user.save({validateBeforeSave: false});
 
-  res.send({message: 'Username and password correct!', user});
+  res.send({message: 'Email and password correct!', user});
 });
 
 router.delete('/sessions', async (req, res) => {
