@@ -17,8 +17,9 @@ const RatingSchema = new Schema({
 });
 
 const CocktailSchema = new Schema({
-  author: {
-    type: String,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
     required: true,
   },
   title: {
@@ -34,8 +35,10 @@ const CocktailSchema = new Schema({
     required: true,
   },
   published: {
-    type: Boolean,
+    type: String,
     required: true,
+    default: false,
+    enum: [true, false],
   },
   ingredients: [IngredientSchema],
   rating: [RatingSchema],

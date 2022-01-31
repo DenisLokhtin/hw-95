@@ -1,43 +1,42 @@
 import React, {useState} from 'react';
-import {useDispatch, useSelector} from "react-redux";
-import {createCocktail} from "../../store/actions/actions";
+import {useDispatch} from "react-redux";
+import {PostCocktailsRequest} from "../../store/actions/cocktailsActions";
 import './NewCocktail.css'
 
 const NewCocktail = (props) => {
     const dispatch = useDispatch();
-    const user = useSelector(state => state.users.user);
-
-    const userCheck = () => {
-        if (user !== null) {
-            return user.displayName;
-        } else {
-            return ''
-        }
-    };
 
     const [data, setData] = useState({
         title: '',
         image: null,
-        published: false,
         recipe: '',
         ingredients: [{
             title: '',
             amount: '',
+            id: '',
         }],
-        author: userCheck(),
     });
 
     const onSubmit = (e) => {
         e.preventDefault();
         let newData = new FormData();
         for (const [key, value] of Object.entries(data)) {
-           if (key !== 'ingredients') {
-               newData.append(key, value);
-           }
+            if (key !== 'ingredients') {
+                newData.append(key, value);
+            }
         }
-        newData.append('ingredients', JSON.stringify(data.ingredients))
-        console.log(newData);
-        dispatch(createCocktail(newData));
+        newData.append('ingredients', JSON.stringify(data.ingredients));
+        dispatch(PostCocktailsRequest(newData));
+        setData({
+            title: '',
+            image: null,
+            recipe: '',
+            ingredients: [{
+                title: '',
+                amount: '',
+                id: '',
+            }],
+        });
     };
 
     const inputChangeHandler = e => {
@@ -69,13 +68,27 @@ const NewCocktail = (props) => {
         });
     };
 
+    const deleteInput = (e) => {
+        const id = e.target.id;
+        setData(prevState => {
+            const ingredients = prevState.ingredients;
+            ingredients.splice(id, 1);
+            return {
+                ...prevState, ingredients: ingredients
+            }
+        });
+    };
+
     const printIngredient = () => {
         if (data.ingredients.length > 0) {
             return data.ingredients.map((value, index, array) => {
                 return (
                     <p key={index}>
-                        <input id={index} onChange={setIngredient} name="title" type="text" placeholder="ingredient name"/>
-                        <input id={index} onChange={setIngredient} name="amount" type="text" placeholder="amount"/>
+                        <input id={index} value={value.title} onChange={setIngredient} name="title" type="text"
+                               placeholder="ingredient name"/>
+                        <input id={index} value={value.amount} onChange={setIngredient} name="amount" type="text"
+                               placeholder="amount"/>
+                        <button id={index} onClick={deleteInput}>delete</button>
                     </p>
                 )
             })
@@ -96,25 +109,27 @@ const NewCocktail = (props) => {
         });
     };
 
-    console.log(data)
-
     return (
-        <form onSubmit={onSubmit}>
-            <p>
-                <input onChange={inputChangeHandler} name="title" type="text" placeholder="title"/>
-            </p>
-            <p>
-                <textarea onChange={inputChangeHandler} name="recipe" id="" cols="50" rows="5" placeholder="recipe"/>
-            </p>
-            <div className="ingredients">
-                {printIngredient()}
-                <button onClick={addIngredient}>Add ingredient</button>
-            </div>
-            <p>
-                <input name="image" onChange={fileChangeHandler} type="file"/>
-            </p>
-            <button>Create</button>
-        </form>
+        <div>
+            <h2>Add cocktail</h2>
+            <form onSubmit={onSubmit}>
+                <p>
+                    <input onChange={inputChangeHandler} value={data.title} name="title" type="text" placeholder="title"/>
+                </p>
+                <p>
+                    <textarea onChange={inputChangeHandler} value={data.recipe} name="recipe" id="" cols="50" rows="5"
+                              placeholder="recipe"/>
+                </p>
+                <div className="ingredients">
+                    {printIngredient()}
+                    <button onClick={addIngredient}>Add ingredient</button>
+                </div>
+                <p>
+                    <input name="image" onChange={fileChangeHandler} type="file"/>
+                </p>
+                <button>Create</button>
+            </form>
+        </div>
     )
 };
 

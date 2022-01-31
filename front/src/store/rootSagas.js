@@ -1,10 +1,7 @@
-import {all} from 'redux-saga/effects';
-import categoriesSagas from "./sagas/actionsSagas";
-import registerUserSaga from "./sagas/userSaga";
+import {all} from "redux-saga/effects";
+import cocktailsSagas from "./sagas/cocktailsSagas";
+import usersSagas from "./sagas/userSaga";
 
-export function* rootSagas() {
-    yield all([
-        ...categoriesSagas,
-        ...registerUserSaga
-    ])
+export default function* rootSaga() {
+    yield all([...usersSagas, ...cocktailsSagas]);
 }

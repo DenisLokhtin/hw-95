@@ -4,16 +4,15 @@ import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import store from "./store/configureStore";
 import {ToastContainer} from "react-toastify";
-import history from "./history"
 import App from './App';
 
 import 'react-toastify/dist/ReactToastify.css';
 
 const app = (
     <Provider store={store}>
-        <BrowserRouter history={history}>
+        <BrowserRouter>
             <ToastContainer
-                position="top-right"
+                position="bottom-right"
                 autoClose={5000}
                 hideProgressBar={false}
                 newestOnTop={false}

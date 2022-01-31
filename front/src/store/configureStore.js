@@ -1,49 +1,50 @@
-import {applyMiddleware, combineReducers, compose, createStore} from "redux";
-import thunk from "redux-thunk";
-import cocktailsSlice from "./slices/cocktailsSlice";
 import {loadFromLocalStorage, saveToLocalStorage} from "./localStorage";
-import axiosApi from "../axiosApi";
-import createSagaMiddleware from 'redux-saga';
-import usersSlice from "./slices/usersSlice";
-import {rootSagas} from "./rootSagas";
-
-
-const rootReducer = combineReducers({
-    'reducer': cocktailsSlice.reducer,
-    'users': usersSlice.reducer,
-});
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-const persistedState = loadFromLocalStorage();
+import {initialState} from "./slices/usersSlice";
+import createSagaMiddleware from "redux-saga";
+import rootSaga from "./rootSagas";
+import {configureStore} from "@reduxjs/toolkit";
+import rootReducer from "./rootReducer";
+import axiosCocktail from "../axiosApi";
 
 const sagaMiddleware = createSagaMiddleware();
 
-const middleware = [
-    thunk,
-    sagaMiddleware,
-];
+const store = configureStore({
+    reducer: rootReducer,
+    middleware: [sagaMiddleware],
+    devTools: true,
+    preloadedState: loadFromLocalStorage(),
+});
 
-const store = createStore(
-    rootReducer,
-    persistedState,
-    composeEnhancers(applyMiddleware(...middleware))
-);
-
-sagaMiddleware.run(rootSagas);
+sagaMiddleware.run(rootSaga);
 
 store.subscribe(() => {
     saveToLocalStorage({
-        users: store.getState().users,
+        users: {
+            ...initialState,
+            user: store.getState().users.user,
+        },
     });
 });
 
-axiosApi.interceptors.request.use(config => {
+axiosCocktail.interceptors.request.use((config) => {
     try {
-        config.headers['Authorization'] = store.getState().users.user.token
-    } catch (e) {}
+        config.headers["Authorization"] = store.getState().users.user.token;
+    } catch (e) {
+        console.log(e)
+    }
 
     return config;
 });
+
+axiosCocktail.interceptors.response.use(
+    (res) => res,
+    (e) => {
+        if (!e.response) {
+            e.response = {data: {global: "No internet"}};
+        }
+
+        throw e;
+    }
+);
 
 export default store;

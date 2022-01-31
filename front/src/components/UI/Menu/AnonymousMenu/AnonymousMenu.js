@@ -1,10 +1,10 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import FacebookLogin from "../../../FacebookLogin/FacebookLogin";
 
 const AnonymousMenu = () => {
     return (
         <div>
-            <Link to="/register" className="link">Register</Link> or <Link to="/login" className="link">Login</Link>
+            <FacebookLogin classname="facebook"/>
         </div>
     );
 };

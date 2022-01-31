@@ -1,41 +1,31 @@
 import React from 'react';
 import './CocktailCard.css'
 import {useDispatch, useSelector} from "react-redux";
+import {DeleteCocktailsRequest, PublishedCocktailsRequest} from "../../store/actions/cocktailsActions";
+import {Link} from "react-router-dom";
 
 const CocktailCard = (props) => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.users.user);
-    const cocktails = useSelector(state => state.reducer.cocktails);
-
-    const onPublish = () => {
-
-    };
-
-    const publishedCheck = () => {
-        if (cocktails[props.index].published) {
-            return (
-                <div className='edit'>
-                    <span>read</span>
-                </div>
-            )
-        } else if (!cocktails[props.index].published && user.displayName === cocktails[props.index].author) {
-            return (
-                <h3>На рассмотрении у модератора</h3>
-            )
-        } else if (user.role === 'admin') {
-            return (
-                <div className='edit'>
-                    <span>publish</span> or <span>delete</span>
-                </div>
-            )
-        }
-    };
 
     return (
         <div className="CocktailCard">
             <img src={'http://localhost:8001/' + props.image} alt=""/>
             <h3>{props.title}</h3>
-            {publishedCheck()}
+            <Link to={`/cocktail/` + props.id}>read more >>></Link>
+            <>{props.published && props.published === "false" ? <p>Не опубликован</p> : <p>Опубликован</p>}</>
+            {user.role === "admin" && (
+                <div style={{margin: "20px 0 20px 0"}}>
+                    {props.published !== "true" && (
+                        <button onClick={() => dispatch(PublishedCocktailsRequest(props.id))}>
+                            To published
+                        </button>
+                    )}
+                    <button onClick={() => dispatch(DeleteCocktailsRequest(props.id))}>
+                        Delete
+                    </button>
+                </div>
+            )}
         </div>
     );
 };

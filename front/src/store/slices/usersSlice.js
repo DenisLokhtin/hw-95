@@ -1,40 +1,51 @@
 import {createSlice} from "@reduxjs/toolkit";
 
 export const initialState = {
-    user: null,
     registerLoading: false,
     registerError: null,
-    loginError: null,
     loginLoading: false,
+    loginError: null,
+    user: null,
 };
 
-const name = 'users';
+const name = "users";
 
 const usersSlice = createSlice({
     name,
     initialState,
     reducers: {
-        registerUser(state, action) {
+        registerRequest: (state) => {
             state.registerLoading = true;
         },
-        registerUserSuccess(state, {payload: userData}) {
-            state.user = userData;
+        registerSuccess: (state, {payload: user}) => {
             state.registerLoading = false;
-            state.registerError = null;
+            state.user = user;
         },
-        registerUserFailure(state, action) {
+        registerFailure: (state, {payload: error}) => {
             state.registerLoading = false;
-            state.registerError = action.payload;
+            state.registerError = error;
         },
-        logoutUsers(state, action) {
+        loginRequest: (state) => {
+            state.loginLoading = true;
+        },
+        loginSuccess: (state, {payload: user}) => {
+            state.loginLoading = false;
+            state.user = user;
+        },
+        loginFailure: (state, {payload: error}) => {
+            state.loginLoading = false;
+            state.loginError = error;
+        },
+        facebookLoginRequest: (state) => {
+            state.loginLoading = true;
+        },
+
+        logoutRequest: () => {
+        },
+        logoutSuccess: (state) => {
             state.user = null;
         },
-        loginUser(state, action) {
-        },
-        loginUserRequest(state, {payload: userData}) {
-            state.user = userData
-        }
-    }
+    },
 });
 
 export default usersSlice;

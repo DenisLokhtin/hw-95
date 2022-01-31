@@ -2,17 +2,15 @@ import React from 'react';
 import FacebookLoginButton from 'react-facebook-login/dist/facebook-login-render-props';
 import {useDispatch} from "react-redux";
 import './FacebookLogin.css'
-import {facebookAppId} from "../../constants";
-
-import {facebookLogin} from "../../store/actions/usersAction";
+import {facebookAppId} from "../../config";
+import {facebookLoginRequest} from "../../store/actions/usersAction";
 
 const FacebookLogin = () => {
-
     const dispatch = useDispatch();
 
     const facebookResponse = response => {
         if (response.id) {
-            dispatch(facebookLogin(response));
+            dispatch(facebookLoginRequest(response));
         }
     };
 

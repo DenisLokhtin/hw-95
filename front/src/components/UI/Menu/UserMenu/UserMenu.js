@@ -1,13 +1,13 @@
 import React from 'react';
 import {useDispatch} from "react-redux";
-import {logoutUser} from "../../../../store/actions/usersAction";
+import {logoutRequest} from "../../../../store/actions/usersAction";
 
 const UserMenu = ({user}) => {
     const dispatch = useDispatch();
 
     return (
         <div>
-            Hello, <b>{user}</b>! <span onClick={() => dispatch(logoutUser())} className="link">Logout</span>
+            Hello, <b>{user}</b>! <span onClick={() => dispatch(logoutRequest())} className="link">Logout</span>
         </div>
     );
 };

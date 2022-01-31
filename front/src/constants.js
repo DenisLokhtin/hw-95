@@ -1,1 +1,0 @@
-export const facebookAppId = '613057223232675';

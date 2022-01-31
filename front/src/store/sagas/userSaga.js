@@ -1,36 +1,29 @@
-import {takeEvery} from "redux-saga/effects";
-import {loginUser, registerUser, registerUserFailure, registerUserSuccess, loginUserRequest} from "../actions/usersAction";
-import axiosApi from "../../axiosApi";
-import {historyPush} from "../actions/historyActions";
-import {put} from 'redux-saga/effects';
-import {toast} from "react-toastify";
+import {put, takeEvery} from "redux-saga/effects";
+import {facebookLoginRequest, loginFailure, loginSuccess, logoutRequest, logoutSuccess,} from "../actions/usersAction";
+import axiosCocktail from "../../axiosApi";
 
-export function* registerUserSaga({payload: userData}) {
+export function* facebookLogin({payload: data}) {
     try {
-        const response = yield axiosApi.post('/users', userData);
-        yield put(registerUserSuccess(response.data));
-        yield put(historyPush('/'));
-        toast.success('Registered successful!');
-    } catch (error) {
-        toast.error(error.response.data.global);
-        yield put(registerUserFailure(error.response.data));
+        const response = yield axiosCocktail.post("/users/facebookLogin", data);
+        yield put(loginSuccess(response.data.user));
+        } catch (e) {
+        yield put(loginFailure(e.response.data));
     }
 }
 
-export function* loginUserSaga({payload: userData}) {
+export function* logout() {
     try {
-        const response = yield axiosApi.post('users/sessions', userData);
-        yield put(loginUserRequest(response.data.user));
-        yield put(historyPush('/'));
-        toast.success('Login successful!');
-    } catch (error) {
-        toast.error(error.response.data.global);
+        yield axiosCocktail.delete("/users/sessions");
+        yield put(logoutSuccess());
+    } catch (e) {
+        yield put(loginFailure(e.response.data));
     }
 }
 
-const usersSaga = [
-    takeEvery(registerUser, registerUserSaga),
-    takeEvery(loginUser, loginUserSaga),
+const usersSagas = [
+
+    takeEvery(facebookLoginRequest, facebookLogin),
+    takeEvery(logoutRequest, logout),
 ];
 
-export default usersSaga;
+export default usersSagas;
